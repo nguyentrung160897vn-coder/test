@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quà tặng DOJI</title>
+  <style>
+    body { font-family: Arial; text-align: center; }
+    #popup { display:none; position:fixed; inset:0; background:#0008; }
+    #popup img { margin-top:10%; max-width:90%; }
+  </style>
+</head>
+<body>
+
+<h3>Đang kiểm tra mã quà tặng...</h3>
+
+<div id="popup">
+  <img id="img" />
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwgCxWStTfk-kgXNC7YpIly1U93ZajGnxRvPXSXjrSd_gg1SNtTviDmNnzApwWShIHi/exec";
+
+//const code = parseInt(location.pathname.replace("/", ""), 10);
+const params = new URLSearchParams(location.search);
+const code = parseInt(
+  params.get("code") || location.pathname.replace("/", ""),
+  10
+);
+
+
+function rewardByCode(c) {
+  if (c >= 1 && c <= 5) return ["1 chỉ vàng", "1.jpeg"];
+  if (c <= 55) return ["Ô DOJI", "2.jpeg"];
+  if (c <= 355) return ["Gối chữ U", "3.jpeg"];
+  if (c <= 855) return ["Móc khóa", "4.jpeg"];
+  if (c <= 1855) return ["Bút bi", "5.jpeg"];
+  if (c <= 5500) return ["Chúc may mắn lần sau", "6.jpeg"];
+  return null;
+}
+
+const reward = rewardByCode(code);
+if (!reward) {
+  alert("Mã không hợp lệ");
+  throw "";
+}
+
+// fetch(API_URL, {
+//   method: "POST",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify({
+//     code,
+//     reward: reward[0],
+//     userAgent: navigator.userAgent,
+//     ip: ""
+//   })
+// })
+// .then(r => r.json())
+// .then(res => {
+//   if (res.status === "USED") {
+//     alert("Mã này đã được sử dụng");
+//     return;
+//   }
+//   document.getElementById("img").src = "/img/" + reward[1];
+//   document.getElementById("popup").style.display = "block";
+// });
+
+document.getElementById("img").src = "/img/" + reward[1];
+  document.getElementById("popup").style.display = "block";
+</script>
+
+</body>
+</html>
